@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
+import { TbPlayCardStar, TbPlayCardStarFilled } from "react-icons/tb";
+import { HandleCollectionContext } from "../../../collectionContext";
 
 export async function getServerSideProps(context) {
   const id = context.params.category;
@@ -37,7 +39,8 @@ export default function setPage({ pokemon }) {
   const [showCard, setShowCard] = useState(false);
   const displayCards = [];
   const [activeCard, setActiveCard] = useState();
-
+  const [fillIcon, setFillIcon] = useState(false);
+  const { collection, setCollection } = useContext(HandleCollectionContext);
   for (let i = 0; i < pokemon.length; i++) {
     displayCards.push(
       <div>
@@ -69,15 +72,49 @@ export default function setPage({ pokemon }) {
             src={activeCard}
             className="shadow-2xl shadow-gray-950 rounded-md"
           />
-          <button
-            className="flex rounded-full justify-center items-center"
-            onClick={() => {
-              setShowCard(false);
-              setActiveCard("");
-            }}
-          >
-            <IoMdCloseCircle className="text-7xl text-red-500 rounded-full text-center bg-white" />
-          </button>
+          <div className="flex gap-5">
+            <button
+              className="flex rounded-full justify-center items-center"
+              onClick={() => {
+                setShowCard(false);
+                setActiveCard("");
+                setFillIcon(false);
+              }}
+            >
+              <IoMdCloseCircle className="text-7xl text-red-500 rounded-full text-center bg-white" />
+            </button>
+            {!fillIcon && (
+              <button
+                className="flex border-8 bg-blue-500 rounded-full border-white px-4 justify-center items-center"
+                onClick={() => {
+                  setFillIcon(!fillIcon);
+                  const copy = [...collection, activeCard];
+                  setCollection(copy);
+                }}
+              >
+                <>
+                  <TbPlayCardStar className="text-5xl text-yellow-400  " />
+                  <p className="text-2xl font-bold text-blue-900">ADD</p>
+                </>
+              </button>
+            )}
+            {fillIcon && (
+              <button
+                className="flex border-8 bg-red-500 rounded-full border-white px-4 justify-center items-center"
+                onClick={() => {
+                  setFillIcon(!fillIcon);
+                  let copy = [...collection];
+                  copy = copy.filter((card) => card !== activeCard);
+                  setCollection(copy);
+                }}
+              >
+                <>
+                  <TbPlayCardStarFilled className="text-5xl text-yellow-400 " />
+                  <p className="text-2xl font-bold text-blue-900">REMOVE</p>
+                </>
+              </button>
+            )}
+          </div>
         </div>
       )}
     </>
