@@ -1,10 +1,17 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { TbPlayCardStar, TbPlayCardStarFilled } from "react-icons/tb";
 import { HandleCollectionContext } from "../../../collectionContext";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 export async function getServerSideProps(context) {
   const id = context.params.category;
+
+  // Set Cache-Control header
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const response = await fetch("https://api.pokemontcg.io/v2/sets/" + id, {
     headers: {
@@ -41,6 +48,15 @@ export default function setPage({ pokemon }) {
   const [activeCard, setActiveCard] = useState();
   const [fillIcon, setFillIcon] = useState(false);
   const { collection, setCollection } = useContext(HandleCollectionContext);
+
+  useEffect(() => {
+    if (collection.includes(activeCard)) {
+      setFillIcon(true);
+    } else {
+      setFillIcon(false);
+    }
+  }, [activeCard]);
+
   for (let i = 0; i < pokemon.length; i++) {
     displayCards.push(
       <div>
@@ -52,7 +68,8 @@ export default function setPage({ pokemon }) {
         >
           <img
             src={pokemon[i].data.images.small}
-            className="shadow-lg shadow-gray-900 rounded-sm"
+            alt={`Pokemoncard - Name: ${pokemon[i].data.name}, HP: ${pokemon[i].data.hp}, Rarity: ${pokemon[i].data.rarity}`}
+            className="shadow-lg w-40 shadow-gray-900 rounded-sm"
           />
         </button>
       </div>
@@ -62,15 +79,20 @@ export default function setPage({ pokemon }) {
   return (
     <>
       {!showCard && (
-        <div className="flex bg-blue-400 justify-center items-center min-h-screen p-10">
-          <div className="grid grid-cols-10 gap-2">{displayCards}</div>
+        <div className="flex flex-col min-h-screen bg-blue-400 justify-center items-center gap-5 py-20">
+          <h1 className="py-20 text-5xl md:text-7xl font-bold font-pokemon tracking-widest text-blue-950">
+            {pokemon[0].data.set.name}
+          </h1>
+          <div className="flex flex-wrap gap-5 items-center justify-center px-5 md:px-20">
+            {displayCards}
+          </div>
         </div>
       )}
       {showCard && (
-        <div className="flex flex-col gap-5 bg-blue-400 justify-center items-center min-h-screen">
+        <div className="flex flex-col gap-5 bg-blue-400 justify-center items-center min-h-screen px-5 md:px-0 py-10">
           <img
             src={activeCard}
-            className="shadow-2xl shadow-gray-950 rounded-md"
+            className="shadow-2xl shadow-gray-950 rounded-3xl"
           />
           <div className="flex gap-5">
             <button
@@ -78,10 +100,9 @@ export default function setPage({ pokemon }) {
               onClick={() => {
                 setShowCard(false);
                 setActiveCard("");
-                setFillIcon(false);
               }}
             >
-              <IoMdCloseCircle className="text-7xl text-red-500 rounded-full text-center bg-white" />
+              <FaRegArrowAltCircleLeft className="text-7xl text-white rounded-full text-center bg-blue-400" />
             </button>
             {!fillIcon && (
               <button
@@ -90,11 +111,12 @@ export default function setPage({ pokemon }) {
                   setFillIcon(!fillIcon);
                   const copy = [...collection, activeCard];
                   setCollection(copy);
+                  console.log({ pokemon });
                 }}
               >
                 <>
-                  <TbPlayCardStar className="text-5xl text-yellow-400  " />
-                  <p className="text-2xl font-bold text-blue-900">ADD</p>
+                  <TbPlayCardStar className="text-4xl text-yellow-400  " />
+                  <p className="text-2xl font-bold text-white">ADD</p>
                 </>
               </button>
             )}
@@ -109,8 +131,8 @@ export default function setPage({ pokemon }) {
                 }}
               >
                 <>
-                  <TbPlayCardStarFilled className="text-5xl text-yellow-400 " />
-                  <p className="text-2xl font-bold text-blue-900">REMOVE</p>
+                  <TbPlayCardStarFilled className="text-4xl text-yellow-400 " />
+                  <p className="text-2xl font-bold text-white">REMOVE</p>
                 </>
               </button>
             )}

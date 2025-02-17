@@ -4,7 +4,12 @@ import { SiPokemon } from "react-icons/si";
 
 //SSR - Server side rendering
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }) {
+  // Set Cache-Control header
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   //hämta data här:
   const response = await fetch("https://api.pokemontcg.io/v2/sets");
   const data = await response.json();
@@ -22,12 +27,19 @@ export default function Home({ sets }) {
   for (let i = 0; i < sets.data.length; i++) {
     if (i != 2) {
       displaySets.push(
-        <a href={"/news/" + sets.data[i].id} onClick={() => setLoading(true)}>
+        <a
+          href={"/pokemonCards/" + sets.data[i].id}
+          onClick={() => setLoading(true)}
+        >
           <div
             key={i}
             className="flex flex-wrap justify-center items-center h-64 bg-[url(/images/pokemonCard.png)] bg-cover bg-no-repeat  px-3 rounded-lg shadow-lg shadow-gray-900"
           >
-            <img className="w-40" src={sets.data[i].images.logo} />
+            <img
+              className="w-40"
+              src={sets.data[i].images.logo}
+              alt={`Set name: ${sets.data[i].images.logo}`}
+            />
           </div>
         </a>
       );
@@ -38,8 +50,11 @@ export default function Home({ sets }) {
       <div className="flex flex-col min-h-screen bg-blue-400 justify-center items-center gap-5 pb-20">
         {!loading && (
           <>
-            <img src="/images/pokemonLogo.png" className="py-20" />
-            <div className="flex flex-wrap gap-5 items-center justify-center px-20">
+            <img
+              src="/images/pokemonLogo.png"
+              className="w-96 md:w-auto py-20"
+            />
+            <div className="flex flex-wrap gap-5 items-center justify-center px-5 md:px-20">
               {displaySets}
             </div>
           </>

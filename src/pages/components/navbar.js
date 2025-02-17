@@ -13,7 +13,7 @@ export default function Navbar() {
           onClick={() => setFillIcon(false)}
         />
       </a>
-      <div className="flex gap-36 h-16 justify-center">
+      <div className="hidden md:flex gap-36 h-16 justify-center">
         <img src="https://media.giphy.com/media/khrU3QH64GVAvw4Lqy/giphy.gif" />
         <img src="https://media.giphy.com/media/1flb5oerzfG2xUgjmM/giphy.gif" />
         <img src="https://media.giphy.com/media/8YEgM3ih5TdJOIMxzf/giphy.gif" />
@@ -22,7 +22,7 @@ export default function Navbar() {
         <img src="https://media.giphy.com/media/pzdGaX57pfFOP8TLfK/giphy.gif" />
         <img src="https://media.giphy.com/media/46gMxxuM631CbHHjQ0/giphy.gif" />
       </div>
-      <nav className="flex gap-5 text-xl w-1/5 justify-end items-center font-extrabold text-white">
+      <nav className="flex gap-5 text-xl md:w-1/5 justify-end items-center font-extrabold text-white">
         <a
           href="/myCollection"
           className="flex gap-2 items-center"
