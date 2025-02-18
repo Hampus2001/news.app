@@ -5,11 +5,6 @@ import { SiPokemon } from "react-icons/si";
 //SSR - Server side rendering
 
 export async function getServerSideProps({ res }) {
-  // Set Cache-Control header
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
   //hämta data här:
   const response = await fetch("https://api.pokemontcg.io/v2/sets");
   const data = await response.json();
@@ -52,6 +47,7 @@ export default function Home({ sets }) {
           <>
             <img
               src="/images/pokemonLogo.png"
+              alt="Pokemon logo"
               className="w-96 md:w-auto py-20"
             />
             <div className="flex flex-wrap gap-5 items-center justify-center px-5 md:px-20">

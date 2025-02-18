@@ -52,7 +52,10 @@ export default function MyCollection() {
                         setShowCard(true);
                       }}
                     >
-                      <img className="w-44" src={card} />
+                      <img
+                        className="w-44 shadow-lg shadow-gray-900"
+                        src={card}
+                      />
                     </button>
                   );
                 })}

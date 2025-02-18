@@ -7,12 +7,6 @@ import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 export async function getServerSideProps(context) {
   const id = context.params.category;
 
-  // Set Cache-Control header
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-
   const response = await fetch("https://api.pokemontcg.io/v2/sets/" + id, {
     headers: {
       "X-Api-Key": "6fa6de3b-4b1f-49c2-8cac-558e45233a7c",

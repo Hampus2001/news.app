@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <div className="flex h-16 w-full justify-between items-center  bg-blue-500 px-5 py-10 border-b-4 border-blue-600">
-      <a href="/" className="w-1/5 hover:cursor-default">
+      <a href="/" className="w-1/5 hover:cursor-default" alt="Go to homepage">
         <MdCatchingPokemon
           className=" text-5xl cursor-pointer  text-red-500 bg-white rounded-full"
           onClick={() => setFillIcon(false)}
@@ -27,6 +27,7 @@ export default function Navbar() {
           href="/myCollection"
           className="flex gap-2 items-center"
           onClick={() => setFillIcon(true)}
+          alt="Go to my collection"
         >
           <p className="tracking-wider">My Collection</p>
           {!fillIcon && <TbPlayCardStar className="text-3xl" />}
