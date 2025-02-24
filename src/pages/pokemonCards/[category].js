@@ -6,10 +6,11 @@ import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 export async function getServerSideProps(context) {
   const id = context.params.category;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   const response = await fetch("https://api.pokemontcg.io/v2/sets/" + id, {
     headers: {
-      "X-Api-Key": "6fa6de3b-4b1f-49c2-8cac-558e45233a7c",
+      "X-Api-Key": { apiKey },
     },
   });
   const sets = await response.json();
@@ -21,7 +22,7 @@ export async function getServerSideProps(context) {
       "https://api.pokemontcg.io/v2/cards/" + id + "-" + i,
       {
         headers: {
-          "X-Api-Key": "6fa6de3b-4b1f-49c2-8cac-558e45233a7c",
+          "X-Api-Key": { apiKey },
         },
       }
     );
