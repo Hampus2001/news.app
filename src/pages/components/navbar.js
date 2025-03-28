@@ -13,7 +13,7 @@ export default function Navbar() {
           onClick={() => setFillIcon(false)}
         />
       </a>
-      <div className="hidden md:flex gap-36 h-16 justify-center">
+      <div className="hidden 2xl:flex gap-36 h-16 justify-center">
         <img src="https://media.giphy.com/media/khrU3QH64GVAvw4Lqy/giphy.gif" />
         <img src="https://media.giphy.com/media/1flb5oerzfG2xUgjmM/giphy.gif" />
         <img src="https://media.giphy.com/media/8YEgM3ih5TdJOIMxzf/giphy.gif" />

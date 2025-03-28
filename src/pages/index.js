@@ -28,10 +28,10 @@ export default function Home({ sets }) {
         >
           <div
             key={i}
-            className="flex flex-wrap justify-center items-center h-64 bg-[url(/images/pokemonCard.png)] bg-cover bg-no-repeat  px-3 rounded-lg shadow-lg shadow-gray-900"
+            className="flex flex-wrap justify-center items-center h-36 md:h-64 bg-[url(/images/pokemonCard.png)] bg-cover bg-no-repeat  px-3 rounded-lg shadow-lg shadow-gray-900"
           >
             <img
-              className="w-40"
+              className="w-20 md:w-40"
               src={sets.data[i].images.logo}
               alt={`Set name: ${sets.data[i].images.logo}`}
             />
@@ -42,15 +42,15 @@ export default function Home({ sets }) {
   }
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-blue-400 justify-center items-center gap-5 pb-20">
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-400 to-blue-900 justify-center items-center gap-5 pb-20">
         {!loading && (
           <>
             <img
               src="/images/pokemonLogo.png"
               alt="Pokemon logo"
-              className="w-96 md:w-auto py-20"
+              className="w-2/3 md:w-auto py-10 md:py-20"
             />
-            <div className="flex flex-wrap gap-5 items-center justify-center px-5 md:px-20">
+            <div className="flex flex-wrap gap-2 md:gap-5 items-center justify-center px-5 md:px-20">
               {displaySets}
             </div>
           </>
